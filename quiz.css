@@ -1,0 +1,50 @@
+.heading{
+    text-align: center;
+    font-weight: 900;
+    font-size: x-large;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.submit-button{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+}
+
+.instructions{
+    padding:20px;
+    margin: 20px;
+    border:solid black 2px;
+    border-radius: 10px;
+    height:300px;
+}
+
+/*
+ hide question section and show only in question mode
+*/
+#question-section {
+    display: none;
+}
+
+body.question-mode #question-section {
+    display: block;
+}
+
+body.question-mode #init-section {
+    display: none;
+}
+
+.question{
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.answers{
+    margin-bottom: 20px;
+}
+
+.pieChart
+
