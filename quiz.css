@@ -8,7 +8,7 @@
     margin-bottom: 20px;
 }
 
-.submit-button{
+.start-button{
     position: absolute;
     left: 50%;
     top: 50%;
@@ -29,6 +29,21 @@
 */
 #question-section {
     display: none;
+}
+
+#submit-button{
+    display: none;
+}
+
+body.submit-quiz #submit-button{
+    display: block;
+}
+
+.submit-button{
+    margin: 30px;
+}
+body.submit-quiz #next-button{
+    dislpay: none;
 }
 
 body.question-mode #question-section {

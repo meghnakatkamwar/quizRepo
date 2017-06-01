@@ -21,7 +21,7 @@ var questionArray = [
         question: "Where do your parents stay",
         answers: ['poduru', 'mumbai', 'pune'],
         correctAnswer: [0],
-        typeOfChoice: "radio"
+        typeOfChoice: "checkbox"
 
     },
     {
@@ -78,12 +78,23 @@ function setupQuestion(questionObject) {
     question = 'Q' + questionObject.srNo + '.  ' + questionObject.question;
     questionSection.find('.question').html(question);
 
-    var answersHtml = '';
-    questionObject.answers.forEach(function (answer, index) {
-        answersHtml += '<div><label><input type="radio" name="radios" value=' + index + ' class="answerRadios">' + answer + '</label></div>';
-    });
+    if (questionObject.typeOfChoice == "radio") {
+        var answersHtml = '';
+        questionObject.answers.forEach(function (answer, index) {
+            answersHtml += '<div><label><input type="radio" name="radios" value=' + index + ' class="answerRadios">' + answer + '</label></div>';
+        });
+    }
+
+    else {
+var answerHtml='';
+        questionObject.answers.forEach(function (answer, index) {
+            answersHtml += '<div><label><input type="checkbox" name="answer-chechbox" value='+index+'class="answerCheckbox">'+answer+'</label></div>';
+        });
+
+
+    }
+
     questionSection.find('.answers').html(answersHtml);
-    $('#submit-button').hide();
 }
 
 
@@ -97,7 +108,10 @@ function displayPreviousQuestion() {
         currentQuestionIndex--;
         setupQuestion(questionArray[currentQuestionIndex]);
         var radios = document.querySelectorAll('#question-section .answers .answerRadios');
-        radios[selectedAnswerArray[currentQuestionIndex]].checked = 'true';
+        if(selectedAnswerArray[currentQuestionIndex]!='no answer selected'){
+            radios[selectedAnswerArray[currentQuestionIndex]].checked = 'true';
+
+        }
 
 
     }
@@ -110,11 +124,17 @@ function displayNextQuestion() {
 
     }
     else {
+        if (currentQuestionIndex == questionArray.length - 1) {
+
+            $('body').addClass('submit-quiz');
+
+        }
         setupQuestion(questionArray[currentQuestionIndex]);
 
-        if (currentQuestionIndex == questionArray.length - 1) {
-            $('#next-button').hide();
-            $('#submit-button').show();
+        var radios = document.querySelectorAll('#question-section .answers .answerRadios');
+
+        if((selectedAnswerArray[currentQuestionIndex]!='no answer selected' || selectedAnswerArray[currentQuestionIndex]!= undefined  )&&(currentQuestionIndex< selectedAnswerArray.length)){
+            radios[selectedAnswerArray[currentQuestionIndex]].checked = 'true';
 
         }
 
@@ -151,7 +171,7 @@ function submitQuiz() {
     collectAnswersNew();
     var result = getFigures();
 
-    $('#result').html('<div id="jqChart" style="width: 500px; height: 300px;"></div>');
+    $('body').html('<div id="jqChart" style="width: 500px; height: 300px;"></div>');
 
     var background = {
         type: 'linearGradient',
@@ -159,16 +179,16 @@ function submitQuiz() {
         y0: 0,
         x1: 0,
         y1: 1,
-        colorStops: [{ offset: 0, color: '#d2e6c9' },
-            { offset: 1, color: 'white' }]
+        colorStops: [{offset: 0, color: '#d2e6c9'},
+            {offset: 1, color: 'white'}]
     };
 
     $('#jqChart').jqChart({
-        title: { text: 'Pie Chart' },
-        legend: { title: 'Result' },
-        border: { strokeStyle: '#6ba851' },
+        title: {text: 'Pie Chart'},
+        legend: {title: 'Result'},
+        border: {strokeStyle: '#6ba851'},
         background: background,
-        animation: { duration: 1 },
+        animation: {duration: 1},
         shadows: {
             enabled: true
         },
@@ -184,7 +204,7 @@ function submitQuiz() {
                 },
                 explodedRadius: 10,
                 explodedSlices: [5],
-                data: [['Correct',result.correctCount ], ['Wrong', result.wrongCount], ['Not answered', result.noAnswerCount]]
+                data: [['Correct', result.correctCount], ['Wrong', result.wrongCount], ['Not answered', result.noAnswerCount]]
             }
         ]
     });
@@ -228,7 +248,6 @@ function getFigures() {
 }
 
 
-
 $(document).ready(function () {
 
     var background = {
@@ -237,16 +256,16 @@ $(document).ready(function () {
         y0: 0,
         x1: 0,
         y1: 1,
-        colorStops: [{ offset: 0, color: '#d2e6c9' },
-            { offset: 1, color: 'white' }]
+        colorStops: [{offset: 0, color: '#d2e6c9'},
+            {offset: 1, color: 'white'}]
     };
 
     $('#jqChart').jqChart({
-        title: { text: 'Pie Chart' },
-        legend: { title: 'Result' },
-        border: { strokeStyle: '#6ba851' },
+        title: {text: 'Pie Chart'},
+        legend: {title: 'Result'},
+        border: {strokeStyle: '#6ba851'},
         background: background,
-        animation: { duration: 1 },
+        animation: {duration: 1},
         shadows: {
             enabled: true
         },
